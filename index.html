@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Checker</title>
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            max-width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        div {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <label for="numberInput">Enter a number:</label>
+        <input type="number" id="numberInput">
+        <button id="checkBtn">Check</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("checkBtn").addEventListener("click", function() {
+            const num = parseInt(document.getElementById("numberInput").value);
+            const resultElement = document.getElementById("result");
+
+            if (isNaN(num)) {
+                resultElement.textContent = "Please enter a valid number.";
+                return;
+            }
+
+            if (isPrime(num)) {
+                resultElement.textContent = num + " is a prime number!";
+            } else {
+                resultElement.textContent = num + " is not a prime number. Prime factors: " + primeFactors(num).join(", ");
+            }
+        });
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+
+            if (num % 2 === 0 || num % 3 === 0) return false;
+
+            let i = 5;
+            while (i * i <= num) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+                i += 6;
+            }
+
+            return true;
+        }
+
+        function primeFactors(num) {
+            let factors = [];
+            while (num % 2 === 0) {
+                factors.push(2);
+                num /= 2;
+            }
+
+            for (let i = 3; i <= Math.sqrt(num); i += 2) {
+                while (num % i === 0) {
+                    factors.push(i);
+                    num /= i;
+                }
+            }
+
+            if (num > 2) factors.push(num);
+
+            return factors;
+        }
+    </script>
+</body>
+
+</html>
